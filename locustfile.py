@@ -5,7 +5,8 @@ class QuickstartUser(HttpUser):
     wait_time = between(3, 5)
 
     @task(1)
-    def raw_data_request(self):
+    def raw_data_request_geojson(self):
+      """payload is of kathmandu area , Produces 146 MB of file. Usually takes 15-19 Sec to Generate. Does not uses ogr2ogr"""
         payload = {
             'geometry': {
         "type": "Polygon",
