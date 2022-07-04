@@ -7,7 +7,7 @@ class QuickstartUser(HttpUser):
     @task(1)
     def raw_data_request_geojson(self):
       """payload is of kathmandu area , Produces 146 MB of file. Usually takes 15-19 Sec to Generate. Does not uses ogr2ogr"""
-        payload = {
+      payload = {
             'geometry': {
         "type": "Polygon",
         "coordinates": [
@@ -37,6 +37,44 @@ class QuickstartUser(HttpUser):
       }
         }
         
-        headers = {'content-type': 'application/json'}
+      headers = {'content-type': 'application/json'}
         
-        response = self.client.post("/raw-data/current-snapshot/", data=json.dumps(payload), headers=headers)
+      response = self.client.post("/raw-data/current-snapshot/", data=json.dumps(payload), headers=headers)
+    
+    @task(2)
+    def raw_data_request_shapefile(self):
+      """payload is of Big kathmandu area , Produces 340 MB of file. Usually takes 45 Sec to Generate.Uses ogr2ogr"""
+      payload = {
+        "outputType": "shp",
+        "geometry":{
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    85.10009765625,
+                    27.53993569880378
+                  ],
+                  [
+                    85.65765380859375,
+                    27.53993569880378
+                  ],
+                  [
+                    85.65765380859375,
+                    27.848790459862073
+                  ],
+                  [
+                    85.10009765625,
+                    27.848790459862073
+                  ],
+                  [
+                    85.10009765625,
+                    27.53993569880378
+                  ]
+                ]
+              ]
+            }
+        }
+        
+      headers = {'content-type': 'application/json'}
+        
+      response = self.client.post("/raw-data/current-snapshot/", data=json.dumps(payload), headers=headers)
